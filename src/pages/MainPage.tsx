@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface FileTypes {
   name: string;
@@ -24,7 +24,7 @@ const projects_list: _projects[] = [
 
   {
     name: 'ts-timetable-generator',
-    url: 'https://github.com/SouthKioto/ts-timetable-generator',
+    url: 'https//github.com/SouthKioto/ts-timetable-generator',
     additional_url: 'youtube.com',
   },
 
