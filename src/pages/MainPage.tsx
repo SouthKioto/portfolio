@@ -24,7 +24,7 @@ const projects_list: _projects[] = [
 
   {
     name: 'ts-timetable-generator',
-    url: 'https//github.com/SouthKioto/ts-timetable-generator',
+    url: 'https://github.com/SouthKioto/ts-timetable-generator',
     additional_url: 'youtube.com',
   },
 
@@ -52,12 +52,12 @@ export const MainPage = () => {
   const [directory, setDirectory] = useState('');
 
   useEffect(() => {
-    const fullPath = path.length > 0 ? `/${path.join('/')}/ ` : '';
+    const fullPath = path.length > 0 ? `${path.join('/')}/ ` : '';
     setPathStringCopy(fullPath);
   }, [path]);
 
   const handleCheckPath = (path: string[]) => {
-    const fullPath = path.length > 0 ? `/${path.join('/')}/ ` : '';
+    const fullPath = path.length > 0 ? `${path.join('/')}/ ` : '';
     return <span>${fullPath} </span>;
   };
 
@@ -67,7 +67,7 @@ export const MainPage = () => {
     let result = '';
 
     if (command === 'help') {
-      result = `Dostępne komendy: ${action_commands.join(', ')}, ${dirAndFiles.map((f) => f.name).join(', ')}`;
+      result = `Available commands: ${action_commands.join(', ')}, and files/directories: ${dirAndFiles.map((f) => f.name).join(', ')}`;
     } else if (command === 'clear') {
       setHistory([]);
       setInput([]);
@@ -87,7 +87,12 @@ export const MainPage = () => {
         result = projects_list.map((project, index) => {
           return (
             <span key={index}>
-              <a href={project.url} target="_blank" className="underline">
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
                 {project.name}
               </a>{' '}
             </span>
@@ -99,12 +104,14 @@ export const MainPage = () => {
           .join('  ');
       }
     } else if (action === 'cd') {
+      console.log(path);
+      console.log(history);
       if (arg === '..') {
         if (path.length > 0) {
           setPath((prev) => prev.slice(0, -1));
           //result = 'Powrót do katalogu nadrzędnego';
         } else {
-          result = 'Jesteś już w katalogu głównym';
+          result = 'You are in main directory';
         }
       } else {
         const isDirectory = dirAndFiles.some(
@@ -116,7 +123,7 @@ export const MainPage = () => {
           setInDirectory(true);
           //result = `Przechodzisz do katalogu ${arg}/`;
         } else {
-          result = `Nie znaleziono katalogu: ${arg}`;
+          result = `Cannot find directory: ${arg}`;
         }
       }
     } else if (
@@ -127,17 +134,18 @@ export const MainPage = () => {
           result = 'Hi, Im Bartek';
           break;
         case 'experience':
-          result = 'Nie posiadam';
+          result =
+            'I worked as an IT specialist at the local council. So far, I have no experience working as a developer.';
           break;
         default:
-          result = `Plik: ${command}`;
+          result = `File: ${command}`;
       }
     } else if (
       dirAndFiles.some((f) => f.name === command && f.type === 'directory')
     ) {
-      result = `\`${command}\` jest katalogiem. Użyj: cd ${command}`;
+      result = `\`${command}\` is a directory. Use: cd ${command}`;
     } else {
-      result = `Nieznana komenda: "${command}"`;
+      result = `Unknow command: "${command}"`;
     }
 
     setHistory((prev) => [
